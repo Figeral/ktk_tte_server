@@ -1,6 +1,8 @@
 <?php
 require 'authentication.php'; // admin authentication check 
-
+if (preg_match('/api/v1/', $_SERVER["REQUEST_URI"]) == true) {
+	require_once 'api/index.php';
+}
 // auth check
 if (isset($_SESSION['admin_id'])) {
 	$user_id = $_SESSION['admin_id'];
