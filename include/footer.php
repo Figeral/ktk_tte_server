@@ -11,9 +11,10 @@
 <script>
   $(document).ready(function() {
     $('#example').DataTable({
+      // pageLength: 10,
+
       dom: 'Bfrtip',
       buttons: [
-        'copyHtml5',
         'excelHtml5',
         'csvHtml5',
         'pdfHtml5'

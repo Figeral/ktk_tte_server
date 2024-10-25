@@ -26,7 +26,7 @@ if (isset($_POST['update_task_info'])) {
 $page_name = "Edit Task";
 include("include/sidebar.php");
 
-$sql = "SELECT * FROM task_info WHERE task_id='$task_id' ";
+$sql = "SELECT * FROM task WHERE id='$task_id' ";
 $info = $obj_admin->manage_all_info($sql);
 $row = $info->fetch(PDO::FETCH_ASSOC);
 
@@ -50,42 +50,34 @@ $row = $info->fetch(PDO::FETCH_ASSOC);
 							<div class="form-group col-md-6">
 								<label class="control-label">Task Title</label>
 
-								<input type="text" placeholder="Task Title" id="task_title" name="task_title" list="expense" class="form-control" value="<?php echo $row['t_title']; ?>" <?php if ($user_role != 1) { ?> readonly <?php } ?> val required>
+								<input type="text" placeholder="Task Title" id="task_title" name="task_title" list="expense" class="form-control" value="<?php echo $row['slug']; ?>" <?php if ($user_role != 1) { ?> readonly <?php } ?> val required>
 							</div>
 							<div class="form-group col-md-6">
 								<label class="control-label">Task Description</label>
 
-								<textarea name="task_description" id="task_description" placeholder="Text Deskcription" class="form-control" rows="5" cols="5"><?php echo $row['t_description']; ?></textarea>
+								<textarea name="task_description" id="task_description" placeholder="Text Deskcription" class="form-control" rows="5" cols="5"><?php echo $row['description']; ?></textarea>
 
 							</div>
 							<div class="form-group col-md-6">
-								<label class="control-label">Strat Time</label>
+								<label class="control-label">Task Link</label>
 
-								<input type="text" name="t_start_time" id="t_start_time" class="form-control" value="<?php echo $row['t_start_time']; ?>">
-
+								<input type="text" placeholder="Task Link" id="task_link" name="task_link" list="expense" class="form-control" value="<?php echo $row['link']; ?>" <?php if ($user_role != 1) { ?> readonly <?php } ?> val required>
 							</div>
 							<div class="form-group col-md-6">
-								<label class="control-label">End Time</label>
+								<label class="control-label">Image Link</label>
 
-								<input type="text" name="t_end_time" id="t_end_time" class="form-control" value="<?php echo $row['t_end_time']; ?>">
+								<textarea name="image_link" id="image_link" placeholder="Image Link" class="form-control" rows="5" cols="5"><?php echo $row['image_link']; ?></textarea>
 
 							</div>
 
 							<div class="form-group col-md-6">
-								<label class="control-label">Assign To</label>
+								<label class="control-label">Created By</label>
 
-								<?php
-								$sql = "SELECT user_id, fullname FROM tbl_admin WHERE user_role = 2";
-								$info = $obj_admin->manage_all_info($sql);
-								?>
-								<select class="form-control" name="assign_to" id="aassign_to" <?php if ($user_role != 1) { ?> disabled="true" <?php } ?>>
-									<option value="">Select</option>
+								<select class="form-control" name="created_by" id="created_by" disabled="true">
+									<option value="">
+										<?php echo $user_name ?> </option>
 
-									<?php while ($rows = $info->fetch(PDO::FETCH_ASSOC)) { ?>
-										<option value="<?php echo $rows['user_id']; ?>" <?php
-																						if ($rows['user_id'] == $row['t_user_id']) {
-																						?> selected <?php } ?>><?php echo $rows['fullname']; ?></option>
-									<?php } ?>
+
 								</select>
 
 							</div>
@@ -94,9 +86,9 @@ $row = $info->fetch(PDO::FETCH_ASSOC);
 								<label class="control-label">Status</label>
 
 								<select class="form-control" name="status" id="status">
-									<option value="0" <?php if ($row['status'] == 0) { ?>selected <?php } ?>>Incomplete</option>
-									<option value="1" <?php if ($row['status'] == 1) { ?>selected <?php } ?>>In Progress</option>
-									<option value="2" <?php if ($row['status'] == 2) { ?>selected <?php } ?>>Completed</option>
+									<option value="1" <?php if ($row['status'] == 1) { ?>selected <?php } ?>>Pending</option>
+									<option value="2" <?php if ($row['status'] == 2) { ?>selected <?php } ?>>Active</option>
+									<option value="0" <?php if ($row['status'] == 0) { ?>selected <?php } ?>>Archived</option>
 								</select>
 							</div>
 

@@ -27,9 +27,9 @@ $page_name = "Edit Task";
 include("include/sidebar.php");
 
 $sql = "SELECT a.*, b.fullname 
-FROM task_info a
-LEFT JOIN tbl_admin b ON(a.t_user_id = b.user_id)
-WHERE task_id='$task_id'";
+FROM task a
+LEFT JOIN tbl_admin b ON(a.id = b.user_id)
+WHERE a.id='$task_id'";
 $info = $obj_admin->manage_all_info($sql);
 $row = $info->fetch(PDO::FETCH_ASSOC);
 
@@ -53,39 +53,54 @@ $row = $info->fetch(PDO::FETCH_ASSOC);
 							<div class="col-md-12">
 
 								<div class="table-responsive">
-									<table class="table table-codensed  display" id="example" style="width:100%">
+									<table class="table table-codensed  display" id="detail_page" style="width:100%">
+										<thead>
+											<tr>
+												<th>Field</th>
+												<th>Value</th>
+											</tr>
+										</thead>
 										<tbody>
 											<tr>
 												<td>Task Title</td>
-												<td><?php echo $row['t_title']; ?></td>
+												<td><?php echo $row['slug']; ?></td>
 											</tr>
 											<tr>
 												<td>Description</td>
-												<td><?php echo $row['t_description']; ?></td>
+												<td><?php echo $row['description']; ?></td>
 											</tr>
+
 											<tr>
-												<td>Start Time</td>
-												<td><?php echo $row['t_start_time']; ?></td>
-											</tr>
-											<tr>
-												<td>End Time</td>
-												<td><?php echo $row['t_end_time']; ?></td>
-											</tr>
-											<tr>
-												<td>Assign To</td>
+												<td>Created By</td>
 												<td><?php echo $row['fullname']; ?></td>
+											</tr>
+											<tr>
+												<td>Task Link</td>
+												<td><?php echo $row['link']; ?></td>
+											</tr>
+											<tr>
+												<td>Task image</td>
+												<td> <img src="<?php echo $row['image_link'];
+																?>" alt="" height="150"></td>
 											</tr>
 											<tr>
 												<td>Status</td>
 												<td><?php if ($row['status'] == 1) {
-														echo "In Progress";
+														echo "Pending";
 													} elseif ($row['status'] == 2) {
-														echo "Completed";
+														echo "Active";
 													} else {
-														echo "Incomplete";
+														echo "Archived";
 													} ?></td>
 											</tr>
-
+											<tr>
+												<td>Creation Time</td>
+												<td><?php echo $row['created_at']; ?></td>
+											</tr>
+											<tr>
+												<td>Update Time</td>
+												<td><?php echo $row['updated_at'] == NULL ? "" : $row['updated_at']; ?></td>
+											</tr>
 										</tbody>
 									</table>
 								</div>

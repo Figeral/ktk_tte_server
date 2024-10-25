@@ -10,7 +10,7 @@ class Admin_Class
 		$host_name = 'localhost';
 		$user_name = 'fitzgerard';
 		$password = 'Diablomanore237@localhost';
-		$db_name = 'taskmatic';
+		$db_name = 'ktk_tte';
 
 
 		try {
@@ -310,23 +310,24 @@ class Admin_Class
 
 	/* =================Task Related===================== */
 
-	public function add_new_task($data)
+	public function add_new_task($data, $user_id)
 	{
 		// data insert   
 		$task_title  = $this->test_form_input_data($data['task_title']);
 		$task_description = $this->test_form_input_data($data['task_description']);
-		$t_start_time = $this->test_form_input_data($data['t_start_time']);
-		$t_end_time = $this->test_form_input_data($data['t_end_time']);
-		$assign_to = $this->test_form_input_data($data['assign_to']);
+		$task_link = $this->test_form_input_data($data['task_link']);
+		$image_link = $this->test_form_input_data($data['image_link']);
+
+
 
 		try {
-			$add_task = $this->db->prepare("INSERT INTO task_info (t_title, t_description, t_start_time, 	t_end_time, t_user_id) VALUES (:x, :y, :z, :a, :b) ");
+			$add_task = $this->db->prepare("INSERT INTO task(description,link,status,image_link,slug,user_id,created_at) VALUES (:x, :y, 1,:z, :a, $user_id,NOW())");
 
-			$add_task->bindparam(':x', $task_title);
-			$add_task->bindparam(':y', $task_description);
-			$add_task->bindparam(':z', $t_start_time);
-			$add_task->bindparam(':a', $t_end_time);
-			$add_task->bindparam(':b', $assign_to);
+			$add_task->bindparam(':x', $task_description);
+			$add_task->bindparam(':y', $task_link);
+			$add_task->bindparam(':z', $image_link);
+			$add_task->bindparam(':a', $task_title);
+
 
 			$add_task->execute();
 
@@ -343,27 +344,21 @@ class Admin_Class
 	{
 		$task_title  = $this->test_form_input_data($data['task_title']);
 		$task_description = $this->test_form_input_data($data['task_description']);
-		$t_start_time = $this->test_form_input_data($data['t_start_time']);
-		$t_end_time = $this->test_form_input_data($data['t_end_time']);
-		$status = $this->test_form_input_data($data['status']);
 
-		if ($user_role == 1) {
-			$assign_to = $this->test_form_input_data($data['assign_to']);
-		} else {
-			$sql = "SELECT * FROM task_info WHERE task_id='$task_id' ";
-			$info = $this->manage_all_info($sql);
-			$row = $info->fetch(PDO::FETCH_ASSOC);
-			$assign_to = $row['t_user_id'];
-		}
+		$status = $this->test_form_input_data($data['status']);
+		$image_link = $this->test_form_input_data($data['image_link']);
+		$link = $this->test_form_input_data($data['task_link']);
+
+
 
 		try {
-			$update_task = $this->db->prepare("UPDATE task_info SET t_title = :x, t_description = :y, t_start_time = :z, t_end_time = :a, t_user_id = :b, status = :c WHERE task_id = :id ");
+			$update_task = $this->db->prepare("UPDATE task SET slug = :x, description = :y,  updated_at= NOW(), status = :c, image_link=:n,link=:m WHERE id = :id ");
 
 			$update_task->bindparam(':x', $task_title);
 			$update_task->bindparam(':y', $task_description);
-			$update_task->bindparam(':z', $t_start_time);
-			$update_task->bindparam(':a', $t_end_time);
-			$update_task->bindparam(':b', $assign_to);
+
+			$update_task->bindparam(':m', $link);
+			$update_task->bindparam(':n', $image_link);
 			$update_task->bindparam(':c', $status);
 			$update_task->bindparam(':id', $task_id);
 
