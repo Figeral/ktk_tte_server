@@ -22,19 +22,13 @@ if (isset($_POST['update_cron_info'])) {
 }
 
 
-$page_name = "Cron";
+$page_name = "Attendance";
 include("include/sidebar.php");
 
 $sql = "SELECT * FROM cron WHERE id='$cron_id' ";
 $info = $obj_admin->manage_all_info($sql);
 $row = $info->fetch(PDO::FETCH_ASSOC);
-
-
-
 ?>
-
-<!--modal for employee add-->
-
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
 
@@ -43,7 +37,7 @@ $row = $info->fetch(PDO::FETCH_ASSOC);
         <div class="well well-custom">
             <div class="row">
 
-                <h3 class="" style="padding: 7px;">Edit Cron</h3><br>
+                <h3 class="" style="padding: 7px;">Confirm claim</h3><br>
 
                 <div class="row">
                     <div class="col-md-12">
@@ -93,25 +87,3 @@ $row = $info->fetch(PDO::FETCH_ASSOC);
     </div>
 </div>
 </div>
-
-
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-
-<script type="text/javascript">
-    flatpickr('#starts_at', {
-        enableTime: true
-    });
-
-    flatpickr('#ends_at', {
-        enableTime: true
-    });
-</script>
-
-
-<?php
-
-include("include/footer.php");
-//   
-//  
-//
-?>

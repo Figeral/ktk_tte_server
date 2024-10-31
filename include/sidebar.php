@@ -33,6 +33,11 @@
 </head>
 
 <body>
+  <?php $sql = "SELECT COUNT(*) as claim_count FROM stats WHERE is_claim = 1";
+  $data = $obj_admin->manage_all_info($sql);
+  $row = $data->fetch(PDO::FETCH_ASSOC);
+
+  ?>
 
   <nav class="navbar navbar-inverse sidebar navbar-fixed-top" role="navigation">
     <div class="container-fluid">
@@ -69,7 +74,11 @@
 
             <li <?php if ($page_name == "Attendance") {
                   echo "class=\"active\"";
-                } ?>><a href="attendance-info.php"><span style="font-size:16px;    margin-right: 13px;" class="pull-left hidden-xs showopacity glyphicon glyphicon-calendar"></span> Statistics</a></li>
+                } ?>><a href="stat-info.php"><span style="font-size:16px;    margin-right: 13px;" class="pull-left hidden-xs showopacity glyphicon glyphicon-calendar"></span> Statistics <span class="badge badge-light">
+                  <?php echo  $row["claim_count"];
+                  ?>
+              </a>
+            </li>
 
 
 
@@ -88,7 +97,7 @@
                 } ?>><a href="task-info.php"><span style="font-size:16px;    margin-right: 13px;" class="pull-left hidden-xs showopacity glyphicon glyphicon-tasks"></span> Task Mangement</a></li>
             <li <?php if ($page_name == "Attendance") {
                   echo "class=\"active\"";
-                } ?>><a href="attendance-info.php"><span style="font-size:16px;    margin-right: 13px;" class="pull-left hidden-xs showopacity glyphicon glyphicon-calendar"></span> Attendance </a></li>
+                } ?>><a href="stat-info.php"><span style="font-size:16px;    margin-right: 13px;" class="pull-left hidden-xs showopacity glyphicon glyphicon-calendar"></span> Attendance </a></li>
             <li><a href="?logout=logout"><span style="font-size:16px;    margin-right: 13px;" class="pull-left hidden-xs showopacity glyphicon glyphicon-log-out"></span> Logout</a></li>
           </ul>
         </div>

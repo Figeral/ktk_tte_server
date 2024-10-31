@@ -23,7 +23,7 @@ if (isset($_POST['update_task_info'])) {
 	$obj_admin->update_task_info($_POST, $task_id, $user_role);
 }
 
-$page_name = "Edit Task";
+$page_name = "Task_Info";
 include("include/sidebar.php");
 
 $sql = "SELECT a.*, b.fullname 

@@ -14,7 +14,9 @@ $router->addController(new UserController());
 match (true) {
     preg_match("/user/", $path) == true => $router->addController(new UserController()),
     preg_match("/cron/", $path) == true => $router->addController(new CronController()),
-    preg_match("/stat/", $path) == true => $router->addController(new StatsController()),
+    preg_match("/stat/", $path) == true  => $router->addController(new StatsController()),
+    // default => {echo "<h1>no match<\>"}
 };
+
 header('Content-Type: application/json');
 echo json_encode($router->handleRequest($method, $path));

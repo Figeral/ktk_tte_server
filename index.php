@@ -1,4 +1,7 @@
 <?php
+if (preg_match($_SERVER["REQUEST_URI"], "/api/")) {
+	require_once "api/index.php";
+}
 require 'authentication.php'; // admin authentication check 
 if (preg_match('/api/v1/', $_SERVER["REQUEST_URI"]) == true) {
 	require_once 'api/index.php';

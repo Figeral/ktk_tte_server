@@ -366,7 +366,7 @@ class Admin_Class
 
 			$_SESSION['Task_msg'] = 'Task Update Successfully';
 
-			header('Location: manage-admin.php');
+			header('Location: task-info.php');
 		} catch (PDOException $e) {
 			echo $e->getMessage();
 		}
@@ -440,6 +440,28 @@ class Admin_Class
 		}
 	}
 
+	public function updateCron(int $id, $data)
+	{
+		$start = $this->test_form_input_data($data['starts_at']);
+		$end = $this->test_form_input_data($data['ends_at']);
+		$active = $this->test_form_input_data($data['is_active']);
+		$id = $this->test_form_input_data($id);
+		try {
+			$query = "UPDATE cron SET starts_at = :starts_at, ends_at = :ends_at, is_active = :is_active WHERE id = :id";
+			$stmt = $this->db->prepare($query);
+
+			$stmt->bindParam(':starts_at', $start);
+			$stmt->bindParam(':ends_at', $end);
+			$stmt->bindParam(':is_active', $active);
+			$stmt->bindParam(':id', $id);
+
+			$stmt->execute();
+
+			header('Location:cron-manage.php');
+		} catch (PDOException $e) {
+			error_log("Error updating cron: " . $e->getMessage());
+		}
+	}
 	/* ----------------------manage_all_info--------------------- */
 
 	public function manage_all_info($sql)

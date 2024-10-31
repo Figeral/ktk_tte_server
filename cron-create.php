@@ -17,19 +17,24 @@ $user_role = $_SESSION['user_role'];
 
 $cron_id = $_GET['cron_id'];
 
-if (isset($_POST['update_cron_info'])) {
-    $obj_admin->updateCron($cron_id, $_POST);
+if (isset($_POST['create_cron'])) {
+    $obj_cron = new CronService(new Database);
+    $data = array();
+
+    array_push($data, array(":starts_at", $_POST['starts_at']));
+    array_push($data, array(":ends_at", $_POST['ends_at']));
+    array_push($data, array(":is_active", $_POST['is_active']));
+
+    try {
+        $obj_cron->create($data);
+    } catch (\Throwable $th) {
+        throw $th;
+    }
 }
 
 
 $page_name = "Cron";
 include("include/sidebar.php");
-
-$sql = "SELECT * FROM cron WHERE id='$cron_id' ";
-$info = $obj_admin->manage_all_info($sql);
-$row = $info->fetch(PDO::FETCH_ASSOC);
-
-
 
 ?>
 
@@ -43,7 +48,7 @@ $row = $info->fetch(PDO::FETCH_ASSOC);
         <div class="well well-custom">
             <div class="row">
 
-                <h3 class="" style="padding: 7px;">Edit Cron</h3><br>
+                <h3 class="" style="padding: 7px;">Create Cron</h3><br>
 
                 <div class="row">
                     <div class="col-md-12">
@@ -52,20 +57,20 @@ $row = $info->fetch(PDO::FETCH_ASSOC);
                             <div class="form-group col-md-6">
                                 <label class="control-label">Start Time</label>
 
-                                <input type="text" name="starts_at" id="starts_at" class="form-control" value="<?php echo $row['starts_at']; ?>">
+                                <input type="text" name="starts_at" id="starts_at" class="form-control">
 
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class=" form-group col-md-6">
                                 <label class="control-label">End Time</label>
 
-                                <input type="text" name="ends_at" id="ends_at" class="form-control" value="<?php echo $row['ends_at']; ?>">
+                                <input type="text" name="ends_at" id="ends_at" class="form-control">
 
                             </div>
 
 
                     </div>
 
-                    <div class="form-group col-md-6">
+                    <div class=" form-group col-md-6">
                         <label class="control-label">Status</label>
 
                         <select class="form-control" name="is_active" id="is_active">
@@ -81,7 +86,7 @@ $row = $info->fetch(PDO::FETCH_ASSOC);
 
 
 
-                        <button type="submit" name="update_cron_info" class="btn btn-primary">Update Now</button>
+                        <button type="submit" name="create_cron" class="btn btn-primary">Create Now</button>
 
                     </div>
                     </form>

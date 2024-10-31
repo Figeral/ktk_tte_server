@@ -6,7 +6,7 @@ if (isset($_POST['add_task_post'])) {
     $obj_admin->add_new_task($_POST, $user_id);
 }
 
-$page_name = "Task_Create";
+$page_name = "Task_Info";
 include("include/sidebar.php");
 ?>
 

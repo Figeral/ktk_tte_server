@@ -2,6 +2,13 @@
 class Router
 {
     private array $routes = [];
+    private string $apiPrefix;
+
+    public function __construct(string $apiPrefix = 'api/v1')
+    {
+        $this->apiPrefix = $apiPrefix;
+    }
+
     public function addController($controller)
     {
         $reflection = new ReflectionClass($controller);
@@ -9,12 +16,18 @@ class Router
             $attributes = $methods->getAttributes(Route::class);
             foreach ($attributes as $attribute) {
                 $route = $attribute->newInstance();
-                $this->routes[] = ['method' => $route->method, 'path' => $route->path, 'handler' => [$controller, $methods->getName()]];
+                $prefixedPath = '/' . $this->apiPrefix . $route->path;
+                $this->routes[] = [
+                    'method' => $route->method,
+                    'path' => $prefixedPath,
+                    'handler' => [$controller, $methods->getName()]
+                ];
             }
         }
     }
     private function matchPath($routePath, $requestPath)
     {
+
         $routeParts = explode('/', trim($routePath, '/'));
         $requestParts = explode('/', trim($requestPath, '/'));
 

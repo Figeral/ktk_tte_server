@@ -49,8 +49,7 @@ include("include/sidebar.php");
           <div class="btn-group">
             <?php
 
-            $sql = "SELECT * FROM attendance_info
-                          WHERE atn_user_id = $user_id AND out_time IS NULL";
+            $sql = "SELECT * FROM stats";
 
 
             $info = $obj_admin->manage_all_info($sql);
@@ -74,7 +73,7 @@ include("include/sidebar.php");
       </div>
 
       <center>
-        <h3>Manage Atendance</h3>
+        <h3>Manage Statistics</h3>
       </center>
       <div class="gap"></div>
 
@@ -85,11 +84,11 @@ include("include/sidebar.php");
           <thead>
             <tr>
               <th>S.N.</th>
-              <th>Name</th>
-              <th>In Time</th>
-              <th>Out Time</th>
-              <th>Total Duration</th>
-              <th>Status</th>
+              <th>User Mail</th>
+              <th>Score</th>
+              <th># Claims</th>
+              <th># Restarted</th>
+              <th># Has Claim</th>
               <?php if ($user_role == 1) { ?>
                 <th>Action</th>
               <?php } ?>
@@ -100,16 +99,12 @@ include("include/sidebar.php");
 
             <?php
             if ($user_role == 1) {
-              $sql = "SELECT a.*, b.fullname 
-                  FROM attendance_info a
-                  LEFT JOIN tbl_admin b ON(a.atn_user_id = b.user_id)
-                  ORDER BY a.aten_id DESC";
+              $sql = "SELECT a.*, b.* 
+                  FROM stats a
+                  LEFT JOIN user b ON(a.id_user = b.id)
+                  ORDER BY a.id DESC";
             } else {
-              $sql = "SELECT a.*, b.fullname 
-                  FROM attendance_info a
-                  LEFT JOIN tbl_admin b ON(a.atn_user_id = b.user_id)
-                  WHERE atn_user_id = $user_id
-                  ORDER BY a.aten_id DESC";
+              echo '<tr><td colspan="7">No Data found</td></tr>';
             }
 
 
@@ -122,38 +117,18 @@ include("include/sidebar.php");
             while ($row = $info->fetch(PDO::FETCH_ASSOC)) {
             ?>
               <tr>
-                <td><?php echo $serial;
-                    $serial++; ?></td>
-                <td><?php echo $row['fullname']; ?></td>
-                <td><?php echo $row['in_time']; ?></td>
-                <td><?php echo $row['out_time']; ?></td>
-                <td><?php
-                    if ($row['total_duration'] == null) {
-                      $date = new DateTime('now', new DateTimeZone('Asia/Dhaka'));
-                      $current_time = $date->format('d-m-Y H:i:s');
-
-                      $dteStart = new DateTime($row['in_time']);
-                      $dteEnd   = new DateTime($current_time);
-                      $dteDiff  = $dteStart->diff($dteEnd);
-                      echo $dteDiff->format("%H:%I:%S");
-                    } else {
-                      echo $row['total_duration'];
-                    }
-
-
+                <td><?php echo $row['id'];
                     ?></td>
-                <?php if ($row['out_time'] == null) { ?>
-                  <td>
-                    <form method="post" role="form" action="">
-                      <input type="hidden" name="punch_in_time" value="<?php echo $row['in_time']; ?>">
-                      <input type="hidden" name="aten_id" value="<?php echo $row['aten_id']; ?>">
-                      <button type="submit" name="add_punch_out" class="label label-danger border-0">Clock Out</button>
-                    </form>
-                  </td>
-                <?php } ?>
+                <td><?php echo $row['mail']; ?></td>
+                <td><?php echo $row['score']; ?></td>
+                <td><?php echo $row['claims']; ?></td>
+                <td><?php echo $row['restarted']; ?></td>
+                <td><?php echo $row['is_claim'] == 1 ?  "True" : "False";    ?></td>
                 <?php if ($user_role == 1) { ?>
                   <td>
-                    <a class="btn btn-danger btn-sm" title="Delete" href="?delete_attendance=delete_attendance&aten_id=<?php echo $row['aten_id']; ?>" onclick=" return check_delete();"><span class="glyphicon glyphicon-trash"></span></a>
+                    <a title="" href="stats-edit.php?stat_id=<?php echo $row['id']; ?>" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-edit"></span></a>&nbsp;&nbsp;
+                    <a class="btn btn-danger btn-sm" title="Delete" href="?delete_stats=delete_stats&stat_id=<?php echo $row['id']; ?>" onclick=" return check_delete();"><span class="glyphicon glyphicon-trash"></span></a>&nbsp;&nbsp;
+
                   </td>
                 <?php } ?>
               </tr>

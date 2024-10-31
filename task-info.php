@@ -15,7 +15,7 @@ $user_role = $_SESSION['user_role'];
 
 
 if (isset($_GET['delete_task'])) {
-  $action_id = $_GET['id'];
+  $action_id = $_GET['task_id'];
 
   $sql = "DELETE FROM task WHERE id = :id";
   $sent_po = "task-info.php";
@@ -174,8 +174,8 @@ include("include/sidebar.php");
             while ($row = $info->fetch(PDO::FETCH_ASSOC)) {
             ?>
               <tr>
-                <td><?php echo $serial;
-                    $serial++; ?></td>
+                <td><?php
+                    echo $row['id']; ?></td>
                 <td><?php echo $row['slug']; ?></td>
                 <td><?php echo $row['fullname']; ?></td>
                 <td><?php echo $row['created_at']; ?></td>
