@@ -2,7 +2,7 @@
 
 class Admin_Class
 {
-	private $db;
+	public $db;
 	/* -------------------------set_database_connection_using_PDO---------------------- */
 
 	public function __construct()
@@ -317,23 +317,25 @@ class Admin_Class
 		$task_description = $this->test_form_input_data($data['task_description']);
 		$task_link = $this->test_form_input_data($data['task_link']);
 		$image_link = $this->test_form_input_data($data['image_link']);
+		$reward = $this->test_form_input_data($data['reward']);
 
 
 
 		try {
-			$add_task = $this->db->prepare("INSERT INTO task(description,link,status,image_link,slug,user_id,created_at) VALUES (:x, :y, 1,:z, :a, $user_id,NOW())");
+			$add_task = $this->db->prepare("INSERT INTO task(description,link,status,image_link,slug,reward,user_id,created_at) VALUES (:x, :y, 1,:z, :a,:b,$user_id,NOW())");
 
 			$add_task->bindparam(':x', $task_description);
 			$add_task->bindparam(':y', $task_link);
 			$add_task->bindparam(':z', $image_link);
 			$add_task->bindparam(':a', $task_title);
+			$add_task->bindparam(':b', $reward);
 
 
 			$add_task->execute();
 
 			$_SESSION['Task_msg'] = 'Task Add Successfully';
 
-			header('Location: manage-admin.php');
+			header('Location: task-info.php');
 		} catch (PDOException $e) {
 			echo $e->getMessage();
 		}

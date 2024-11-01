@@ -126,7 +126,7 @@ include("include/sidebar.php");
                 <td><?php echo $row['is_claim'] == 1 ?  "True" : "False";    ?></td>
                 <?php if ($user_role == 1) { ?>
                   <td>
-                    <a title="" href="stats-edit.php?stat_id=<?php echo $row['id']; ?>" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-edit"></span></a>&nbsp;&nbsp;
+                    <a title="stats_edit" href="stats_edit.php?stat_id=<?php echo $row['id']; ?>" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-edit"></span></a>
                     <a class="btn btn-danger btn-sm" title="Delete" href="?delete_stats=delete_stats&stat_id=<?php echo $row['id']; ?>" onclick=" return check_delete();"><span class="glyphicon glyphicon-trash"></span></a>&nbsp;&nbsp;
 
                   </td>

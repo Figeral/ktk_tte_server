@@ -35,6 +35,11 @@ include("include/sidebar.php");
 
                         </div>
                         <div class="form-group col-md-6">
+                            <label class="control-label ">Reward</label>
+
+                            <input placeholder="Task Link" type="number" name="reward" id="reward" class="form-control">
+                        </div>
+                        <div class="form-group col-md-6">
                             <label class="control-label ">Task Link</label>
 
                             <input placeholder="Task Link" type=" text" name="task_link" id="task_link" class="form-control">
@@ -66,7 +71,7 @@ include("include/sidebar.php");
                     </div>
                     <div class="form-group col-md-12">
                         <div class="col-sm-offset-3 col-sm-3">
-                            <button type="submit" name="add_task_post" class="btn btn-success-custom">Assign Task</button>
+                            <button type="submit" name="add_task_post" class="btn btn-success-custom">Create Task</button>
                         </div>
                         <div class="col-sm-3">
                             <button type="submit" class="btn btn-danger-custom" data-dismiss="modal">Cancel</button>

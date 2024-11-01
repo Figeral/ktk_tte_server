@@ -33,6 +33,14 @@ WHERE a.id='$task_id'";
 $info = $obj_admin->manage_all_info($sql);
 $row = $info->fetch(PDO::FETCH_ASSOC);
 
+
+$sql = "SELECT COUNT(*) as task_count
+FROM makes a
+
+WHERE a.id_task='$task_id'";
+$info = $obj_admin->manage_all_info($sql);
+$row_task = $info->fetch(PDO::FETCH_ASSOC);
+
 ?>
 
 <!--modal for employee add-->
@@ -92,6 +100,15 @@ $row = $info->fetch(PDO::FETCH_ASSOC);
 													} else {
 														echo "Archived";
 													} ?></td>
+											</tr>
+											<tr>
+												<td>Reward</td>
+												<td><?php echo $row['reward']; ?></td>
+											</tr>
+											<tr>
+												<td>Done BY</td>
+												<td><?php echo $row_task['task_count'];
+													?> Users</td>
 											</tr>
 											<tr>
 												<td>Creation Time</td>

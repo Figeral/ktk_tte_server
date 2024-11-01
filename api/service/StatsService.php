@@ -40,7 +40,13 @@ class StatsService implements Service
                 WHERE id = $id";
         $result = $this->db->queryDB($data, $sql, Database::EXECUTE);
     }
-
+    public function modifySpecific(int $id, string $col, array $data)
+    {
+        $sql = "UPDATE stats 
+                SET $col=:$col
+                WHERE id = $id";
+        $result = $this->db->queryDB($data, $sql, Database::EXECUTE);
+    }
     public function delete(int $id)
     {
         $sql = "DELETE FROM stats 
