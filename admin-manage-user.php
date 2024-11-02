@@ -142,7 +142,7 @@ if (isset($_POST['add_new_employee'])) {
             <tbody>
 
               <?php
-              $sql = "SELECT * FROM tbl_admin WHERE user_role = 1 or user_role=2 ORDER BY user_id DESC";
+              $sql = "SELECT * FROM tbl_admin WHERE user_role=2 ORDER BY user_id DESC";
               $info = $obj_admin->manage_all_info($sql);
               $serial  = 1;
               $num_row = $info->rowCount();
